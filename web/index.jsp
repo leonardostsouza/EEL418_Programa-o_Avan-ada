@@ -15,7 +15,7 @@
     <body>
         <jsp:useBean id="dao" class="com.eel418.trab1.dao.ReferenciasDAO" />
         <h1>BUSCA</h1>
-        <form name="form" action="controller">
+        <form name="form" action="controller" method="POST">
             <select name="tipo_de_busca">
                 <option>Titulo</option>
                 <option>Autor</option>
@@ -34,11 +34,11 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="${dao.all}" var="ref">
+                <c:forEach items="${referencias}" var="ref">
                     <tr>
-                        <td>${ref.serial}</td>
-                        <td>${ref.titulo}</td>
-                        <td>${ref.autoria}</td>
+                        <td><c:out value="${ref.serial}" /></td>
+                        <td><c:out value="${ref.titulo}" /></td>
+                        <td><c:out value="${ref.autoria}" /></td>
                         <td><a
                                 href="controller?action=update&serialno=<c:out value='${ref.serial}'/>">Update</a></td>
                         <td><a
