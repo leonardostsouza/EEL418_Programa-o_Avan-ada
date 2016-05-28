@@ -13,18 +13,13 @@
     </head>
     <body>
         <h1>BUSCA</h1>
-        <%--<form name="name input" action="result.jsp">
-            titulo:<input type="text" name="titulo"/>
-            autoria:<input type="text" name="autoria"/>
-            <input type="submit" value="BUSCAR" name="botao_envio" />
-        </form>
-        <jsp:forward page="/Controller?action=list"></jsp:forward>--%>
-        <form name="Search Parameters Form" action="result.jsp">
-            <p>Busca por:</p>
-            Titulo: <input type="text" name="titulo" value="" />
-            <p>ou</p>
-            Autor: <input type="text" name="autor" value="" />
+        <form name="Search Parameters Form" action="/controler">
+            <select name="tipo_de_busca">
+                <option>Titulo</option>
+                <option>Autor</option>
+            <input type="text" name="parametro" value="" size="200" /><br/>
             <input type="submit" value="OK" />
+            
         </form>
     </body>
 </html>

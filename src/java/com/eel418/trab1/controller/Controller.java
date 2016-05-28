@@ -36,20 +36,11 @@ public class Controller extends HttpServlet{
         refDao = new ReferenciasDAO();
     }
     
-    /*
-    @Override
-    protected void service(HttpServletRequest request, 
-        HttpServletResponse response) 
-        throws ServletException, IOException {
-        
-        String valorDoParametro = request.getParameter("nomeDoParametro");
-    }*/
-    
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF8");
         resp.setCharacterEncoding("UTF8");
-        
+        /*
         String jspURL;
         String action = req.getParameter("action");
  
@@ -75,7 +66,9 @@ public class Controller extends HttpServlet{
             req.setAttribute("referencias", refDao.getAll());
         }
         RequestDispatcher view = req.getRequestDispatcher(jspURL);
-        view.forward(req, resp);
+        view.forward(req, resp);*/
+        String parametro = req.getParameter("parametro");
+        System.out.println(parametro);
     }
     
     @Override
