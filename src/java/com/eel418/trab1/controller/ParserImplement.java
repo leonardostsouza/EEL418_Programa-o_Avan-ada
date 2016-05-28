@@ -37,7 +37,7 @@ public class ParserImplement implements Parser {
             case "read":{
                 String tipo_de_busca = request.getParameter("tipo_de_busca");
                 String parametro = request.getParameter("parametro");
-                List<Referencias> refList = null;
+                List<Referencias> refList = new ArrayList();
                 ReferenciasDAO refDao = new ReferenciasDAO();
                 
                 if (parametro.equals("")){

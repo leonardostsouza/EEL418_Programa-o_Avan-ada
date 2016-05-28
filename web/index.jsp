@@ -44,12 +44,12 @@
             <br/><br/>
             
             <%-- Resultados --%>
-            <c:if test="${not empty sessionScope.qtd_resultados}">
+            <%--<c:if test="${not empty sessionScope.qtd_resultados}">--%>
                 <div id="qtd_result" align="left">
                     <p>Sua busca retornou ${sessionScope.qtd_resultados} resultados</p>
                 </div>
                 <div id="result" align="center">
-                    <table>
+                    <%--<table>
                         <thead>
                             <tr>
                                 <th>Serial</th>
@@ -71,9 +71,20 @@
                                 </tr>
                             </c:forEach>
                         </tbody>
-                    </table>
+                    </table>--%>
+                    <c:forEach var="ref" items="${sessionScope.resultados}">
+                            <fieldset>
+                                <legend align="center">
+                                    <span id="tag">Titulo:${ref.getTitulo()}</span> 
+                                </legend>
+                                   <span id="tag">Autoria:${ref.getAutoria()}</span>  <br>
+                                <input type="hidden" name="parser" value="Trabalho1.TratadorResultado"/>
+                                <input type="hidden" name="clickedButton"/>
+                                <input type="button" value="Update" />
+                            </fieldset>
+                    </c:forEach>  
                 </div>
-            </c:if>
+            <%--</c:if>--%>
 
         </div>
     </body>

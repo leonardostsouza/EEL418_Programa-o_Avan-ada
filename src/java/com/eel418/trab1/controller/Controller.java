@@ -45,10 +45,10 @@ public class Controller extends HttpServlet{
         response.setCharacterEncoding("UTF8");
         try {
             String pageParser = request.getParameter("parser");
-            Parser parser = (Parser)Class.forName(pageParser).newInstance();
+            ParserImplement parser = new ParserImplement();//(Parser)Class.forName(pageParser).newInstance();
             jspURL = parser.process(request, response);
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.out);
         } finally {
             response.setContentType("text/html;charset=UTF-8");
             request.getRequestDispatcher(jspURL).forward(request, response);
