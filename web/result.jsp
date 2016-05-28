@@ -21,6 +21,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -28,7 +29,7 @@
         <title>Trabalho 1 - EEL 418 - Resultados</title>
     </head>
     <body>
-        <jsp:useBean id="resultBean" scope="session" class="com.eel418.trab1.dao.ReferenciasDAO" />
+        <jsp:useBean id="dao" scope="session" class="com.eel418.trab1.dao.ReferenciasDAO" />
         <table border="0">
             <thead>
                 <tr>

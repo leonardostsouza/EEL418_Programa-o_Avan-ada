@@ -12,7 +12,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Controller</servlet-name>
-        <url-pattern>/Controller_ref</url-pattern>
+        <url-pattern>/controller</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

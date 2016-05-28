@@ -25,7 +25,7 @@ import com.eel418.trab1.dao.ReferenciasDAO;
  * Universidade Federal do Rio de Janeiro
  */
 
-@WebServlet("/Controller")
+@WebServlet("/controller")
 public class Controller extends HttpServlet{
     private ReferenciasDAO refDao;
     private static final String CREATE_OR_UPDATE = "/edit.jsp";
@@ -35,6 +35,15 @@ public class Controller extends HttpServlet{
         super();
         refDao = new ReferenciasDAO();
     }
+    
+    /*
+    @Override
+    protected void service(HttpServletRequest request, 
+        HttpServletResponse response) 
+        throws ServletException, IOException {
+        
+        String valorDoParametro = request.getParameter("nomeDoParametro");
+    }*/
     
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -73,7 +82,7 @@ public class Controller extends HttpServlet{
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Referencias ref = new Referencias();
         ref.setTitulo(req.getParameter("titulo"));
-        ref.setTitulo(req.getParameter("autoria"));
+        ref.setAutoria(req.getParameter("autoria"));
         String serial = req.getParameter("serialno");
  
         if( serial == null || serial.isEmpty() )
