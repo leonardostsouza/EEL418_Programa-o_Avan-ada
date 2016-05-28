@@ -18,14 +18,23 @@ import java.util.Properties;
  * Universidade Federal do Rio de Janeiro
  */
 public class DBUtils {
+    private static final String USER = "postgres";
+    private static final String PASSWORD = "root";
+    private static final String HOST = "localhost";
+    private static final String PORT = "5432";
+    private static final String DATABASE = "referenciasbibliograficas";
+    
+    private static final String URL = "jdbc:postgresql://" + HOST + ":" + PORT + "/" + DATABASE;
+    
     private static Connection conn;
     
     public static Connection getConnection(){
         if (conn == null){
-            InputStream is = DBUtils.class.getClassLoader().getResourceAsStream( "/db.properties" );
-            Properties props = new Properties();
+            //InputStream is = DBUtils.class.getClassLoader().getResourceAsStream( "/db.properties" );
+            //Properties props = new Properties();
             
             try{
+                /*
                 props.load(is);
                 String driver = props.getProperty("DRIVER");
                 String user = props.getProperty("USER");
@@ -34,8 +43,8 @@ public class DBUtils {
                 String port = props.getProperty("PORT");
                 String db = props.getProperty("DATABASE");
                 String url = driver + "://" + host + ":" + port + "/" + db;
-                
-                conn = DriverManager.getConnection(url, user, pwd);
+                */
+                conn = DriverManager.getConnection(URL, USER, PASSWORD);
             }catch (Exception e){
                 e.printStackTrace();
             }

@@ -27,7 +27,7 @@ import com.eel418.trab1.dao.ReferenciasDAO;
 
 @WebServlet("/controller")
 public class Controller extends HttpServlet{
-    private ReferenciasDAO refDao;
+    private final ReferenciasDAO refDao;
     private static final String CREATE_OR_UPDATE = "/edit.jsp";
     private static final String VIEW_RESULT = "/result.jsp";
     
@@ -40,7 +40,7 @@ public class Controller extends HttpServlet{
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF8");
         resp.setCharacterEncoding("UTF8");
-        /*
+        
         String jspURL;
         String action = req.getParameter("action");
  
@@ -66,9 +66,7 @@ public class Controller extends HttpServlet{
             req.setAttribute("referencias", refDao.getAll());
         }
         RequestDispatcher view = req.getRequestDispatcher(jspURL);
-        view.forward(req, resp);*/
-        String parametro = req.getParameter("parametro");
-        System.out.println(parametro);
+        view.forward(req, resp);
     }
     
     @Override

@@ -24,6 +24,10 @@ import java.util.List;
 
 public class ReferenciasDAO {
     private Connection conn;
+    
+    public ReferenciasDAO(){
+        conn = null;
+    }
 
     /** creates new database entry */
     public void create(Referencias ref){
@@ -47,7 +51,7 @@ public class ReferenciasDAO {
         try{
             conn = DBUtils.getConnection();
             PreparedStatement query = conn.prepareStatement(
-                    "SELECT (titulo, autoria) FROM referencias "
+                    "SELECT * FROM referencias "
                             + "WHERE serialno = ?");
             query.setInt(1, refId);
             ResultSet result = query.executeQuery();
@@ -102,7 +106,7 @@ public class ReferenciasDAO {
         try{
             conn = DBUtils.getConnection();            
             Statement query = conn.createStatement();
-            ResultSet result = query.executeQuery("SELECT (titulo, autoria) FROM referencias ");
+            ResultSet result = query.executeQuery("SELECT * FROM referencias ");
             while(result.next()) {
                 Referencias ref = new Referencias();
                 ref.setSerialno(result.getInt("serialno"));
