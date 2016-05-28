@@ -27,22 +27,38 @@ import com.eel418.trab1.dao.ReferenciasDAO;
 
 @WebServlet("/controller")
 public class Controller extends HttpServlet{
-    private final ReferenciasDAO refDao;
-    private static final String CREATE_OR_UPDATE = "/catalogar.jsp";
-    private static final String VIEW_RESULT = "/index.jsp";
+    //private final ReferenciasDAO refDao;
+    /*private static final String CREATE_OR_UPDATE = "/catalogar.jsp";
+    private static final String VIEW_RESULT = "/index.jsp";*/
     
+    
+    /*
     public Controller(){
         super();
-        refDao = new ReferenciasDAO();
+        //refDao = new ReferenciasDAO();
+    }
+    */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String jspURL = "error.jsp";
+        request.setCharacterEncoding("UTF8");
+        response.setCharacterEncoding("UTF8");
+        try {
+            String pageParser = request.getParameter("parser");
+            Parser parser = (Parser)Class.forName(pageParser).newInstance();
+            jspURL = parser.process(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            response.setContentType("text/html;charset=UTF-8");
+            request.getRequestDispatcher(jspURL).forward(request, response);
+        }
     }
     
+    /*
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF8");
-        resp.setCharacterEncoding("UTF8");
-        
-        String jspURL;
-        String action = req.getParameter("action");
+        String action = req.getParameter("parser");
  
         if(action.equalsIgnoreCase("create")) {
             jspURL = CREATE_OR_UPDATE;
@@ -86,4 +102,40 @@ public class Controller extends HttpServlet{
         req.setAttribute("referencias", refDao.getAll());
         view.forward(req, resp);
     }
+*/
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Returns a short description of the servlet.
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Trabalho 1 - EEL 418 - Programaçao Avançada";
+    }// </editor-fold>
 }

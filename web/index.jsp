@@ -15,7 +15,7 @@
         <script type="text/javascript" src="js/utils.js"></script>
     </head>
     <body>
-        <jsp:useBean id="dao" class="com.eel418.trab1.dao.ReferenciasDAO" />
+        <%-- Formulario para busca --%>
         <div id="main">
             <div id="pages">
                 <div id="align_cat" align="right">
@@ -33,11 +33,17 @@
                         <option name="opcao1" value="titulo" selected>Titulo</option>
                         <option name="opcao2" value="autoria">Autor</option>
                     </select>
-                    <input type="text" name="parametro" value=${sessionScope.parametro} size="100" placeholder="Digite o valor que deseja buscar"/><br/>
-                    <input type="submit" value="BUSCAR" onclick="submitForm('form', 'busca')"/>
+                    <input type="text" name="parametro" value="${sessionScope.parametro}" 
+                           size="100" placeholder="Digite o valor que deseja buscar"/><br/>
+                    <%--<input type="submit" value="BUSCAR" onclick="submitForm('form', 'read')"/>--%>
+                    <a href="#" onClick="Javascript:submitForm('form','READ');">
+                    BUSCAR
+                    </a>
                 </form>
             </div>
             <br/><br/>
+            
+            <%-- Resultados --%>
             <c:if test="${not empty sessionScope.qtd_resultados}">
                 <div id="qtd_result" align="left">
                     <p>Sua busca retornou ${sessionScope.qtd_resultados} resultados</p>
@@ -55,7 +61,7 @@
                         <tbody>
                             <c:forEach items="${sessionScope.resultados}" var="ref">
                                 <tr>
-                                    <td><c:out value="${ref.serial}" /></td>
+                                    <td><c:out value="${ref.serialno}" /></td>
                                     <td><c:out value="${ref.titulo}" /></td>
                                     <td><c:out value="${ref.autoria}" /></td>
                                     <td><a
