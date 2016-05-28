@@ -68,8 +68,8 @@ public class Referencias {
     
     @Override
     public String toString() {
-        return "Referencia: [serialno =" + this.serialno 
-                + ", titulo =" + this.titulo
-                + ", autoria =" + this.autoria + "]";
+        return "Referencia: [serialno = " + this.serialno 
+                + ", titulo = " + this.titulo
+                + ", autoria = " + this.autoria + "]";
     }       
 }

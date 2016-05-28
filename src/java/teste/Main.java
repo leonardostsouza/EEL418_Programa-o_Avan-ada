@@ -9,6 +9,7 @@ import com.eel418.trab1.model.Referencias;
 import com.eel418.trab1.dao.ReferenciasDAO;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 /**
  *
@@ -17,13 +18,16 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         ReferenciasDAO refDao = new ReferenciasDAO();
-        Referencias ref;
+        Referencias ref = new Referencias();
         
-        //List<Referencias> list = refDao.getAll();
-        ref = refDao.read(19);
+        List<Referencias> list = refDao.getAll();
         
-        System.out.println("serialno: " + ref.getSerialno()); // Display the string.
-        System.out.println("titulo: " + ref.getTitulo());
-        System.out.println("autoria: " + ref.getAutoria());
+        for(Iterator<Referencias> i = list.iterator(); i.hasNext(); ) {
+            ref = i.next();
+            System.out.println(ref.toString());
+        }
+        
+        
+        //System.out.println(ref.toString());
     }
 }

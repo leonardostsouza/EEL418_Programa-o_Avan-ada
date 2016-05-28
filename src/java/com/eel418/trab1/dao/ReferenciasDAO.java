@@ -59,7 +59,7 @@ public class ReferenciasDAO {
             while(result.next()){
                 ref.setSerialno(result.getInt("serialno"));
                 ref.setTitulo(result.getString("titulo"));
-                ref.setTitulo(result.getString("autoria"));
+                ref.setAutoria(result.getString("autoria"));
             }
             result.close();
             query.close();
@@ -91,7 +91,7 @@ public class ReferenciasDAO {
         try{
             conn = DBUtils.getConnection();            
             PreparedStatement query = conn.prepareStatement(
-                    "DELETE FROM referencias WHERE serial = ?;");
+                    "DELETE FROM referencias WHERE serialno = ?;");
             query.setInt(1, refId);
             query.executeUpdate();
             query.close();
