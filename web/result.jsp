@@ -28,6 +28,7 @@
         <title>Trabalho 1 - EEL 418 - Resultados</title>
     </head>
     <body>
+        <jsp:useBean id="resultBean" scope="session" class="com.eel418.trab1.dao.ReferenciasDAO" />
         <table border="0">
             <thead>
                 <tr>
@@ -46,12 +47,15 @@
                     <tr>
                         <%--<td><jsp:getProperty name="result_bean" property="serialno" /></td>
                         <td><jsp:getProperty name="result_bean" property="titulo" /></td>
-                        <td><jsp:getProperty name="result_bean" property="autoria" /></td>--%>
+                        <td><jsp:getProperty name="result_bean" property="autoria" /></td>
+                        
+                        
                         <td><c:out value="${ref.serialno}"/></td>
                         <td><c:out value="${ref.titulo}"/></td>
                         <td><c:out value="${ref.autoria}"/></td>
-                        <td><a href="Controller_ref?action=update&serialno=<c:out value="${ref.serialno}"/>">Update</a></td>
-                        <td><a href="Controller_ref?action=delete&serialno=<c:out value="${ref.serialno}"/>">Delete</a></td>
+                        <td><a href="Controller_ref?action=update&serialno=<c:out value='${ref.serialno}'/>">Update</a></td>
+                        <td><a href="Controller_ref?action=delete&serialno=<c:out value='${ref.serialno}'/>">Delete</a></td>--%>
+                        
                     </tr>
                 </c:forEach>
             </tbody>

@@ -23,13 +23,7 @@ public class Referencias {
         this.titulo = null;
         this.autoria = null;
     }
-    
-    public Referencias(int serialno, String titulo, String autoria){
-        this.serialno = serialno;
-        this.titulo = titulo;
-        this.autoria = autoria;
-    }
-
+  
     /**
      * @return the serialno
      */

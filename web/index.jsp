@@ -17,7 +17,14 @@
             titulo:<input type="text" name="titulo"/>
             autoria:<input type="text" name="autoria"/>
             <input type="submit" value="BUSCAR" name="botao_envio" />
-        </form>--%>
-        <jsp:forward page="/Controller?action=list"></jsp:forward>
+        </form>
+        <jsp:forward page="/Controller?action=list"></jsp:forward>--%>
+        <form name="Search Parameters Form" action="result.jsp">
+            <p>Busca por:</p>
+            Titulo: <input type="text" name="titulo" value="" />
+            <p>ou</p>
+            Autor: <input type="text" name="autor" value="" />
+            <input type="submit" value="OK" />
+        </form>
     </body>
 </html>
