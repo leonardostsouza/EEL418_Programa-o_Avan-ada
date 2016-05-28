@@ -24,17 +24,13 @@ public class ParserImplement implements Parser {
     
     @Override
     public String process(HttpServletRequest request,HttpServletResponse response) {
-        String forward_url = "index.jsp";
-        //ReferenciasDAO refDao = new ReferenciasDAO();
-        //List<Referencias> refList = new ArrayList();
+        String forward_url = "error.jsp";
         
         String clickedButton = request.getParameter("clickedButton");
-        Referencias ref = new Referencias();
-        //ref.setTitulo(request.getParameter("titulo"));
-        //ref.setAutoria(request.getParameter("autoria"));
-        
+        //Referencias ref = new Referencias();
         switch (clickedButton) {
             case "read":{
+                forward_url = "index.jsp";
                 String tipo_de_busca = request.getParameter("tipo_de_busca");
                 String parametro = request.getParameter("parametro");
                 List<Referencias> refList = new ArrayList();
@@ -53,7 +49,20 @@ public class ParserImplement implements Parser {
                 request.getSession().setAttribute("qtd_resultados", Integer.toString(refList.size()));
                 request.getSession().setAttribute("resultados", refList);
                 break;
-            }            
+            }    
+            case "update":{
+                forward_url = "edit.jsp";
+                
+                List<Referencias> refList = new ArrayList();
+                ReferenciasDAO refDao = new ReferenciasDAO();
+                
+                int serialno = Integer.parseInt(request.getParameter("serialno"));
+                Referencias ref = refDao.readById(serialno);
+                refList.add(ref);
+                
+                request.getSession().setAttribute("referencia", refList);
+                break;                
+            }
         }
         return forward_url;
     }

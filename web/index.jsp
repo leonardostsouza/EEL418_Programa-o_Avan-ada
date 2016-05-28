@@ -1,7 +1,7 @@
 <%-- 
     Document   : index
     Created on : 26/05/2016, 21:49:22
-    Author     : Leonardo
+    Author     : Leonardo Souza
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -15,7 +15,7 @@
         <script type="text/javascript" src="js/utils.js"></script>
     </head>
     <body>
-        <%-- Formulario para busca --%>
+        <%-- Cabecalho --%>
         <div id="main">
             <div id="pages">
                 <div id="align_cat" align="right">
@@ -25,8 +25,10 @@
                     <h1>BUSCA</h1>
                 </div>
             </div>
+
+            <%-- Formulario para busca --%>
             <div id="form_div" align="center">
-                <form id="form" name="form" action="controller" method="POST">
+                <form id="form_busca" name="form_busca" action="controller" method="POST">
                     <input type="hidden" name="parser" value="com.eel418.trab1.controller.Parser"/>
                     <input type="hidden" name="clickedButton"/>
                     <select name="tipo_de_busca">
@@ -34,58 +36,43 @@
                         <option name="opcao2" value="autoria">Autor</option>
                     </select>
                     <input type="text" name="parametro" value="${sessionScope.parametro}" 
-                           size="100" placeholder="Digite o valor que deseja buscar"/><br/>
-                    <%--<input type="submit" value="BUSCAR" onclick="submitForm('form', 'read')"/>--%>
-                    <a href="#" onClick="Javascript:submitForm('form','READ');">
-                    BUSCAR
-                    </a>
+                           size="100" placeholder="Digite o valor que deseja buscar"/><br/><br/>
+                    <a href="#" onClick="Javascript:submitForm('form_busca', 'read');">BUSCAR</a>
                 </form>
             </div>
             <br/><br/>
-            
+
             <%-- Resultados --%>
-            <%--<c:if test="${not empty sessionScope.qtd_resultados}">--%>
-                <div id="qtd_result" align="left">
+            <c:if test="${not empty sessionScope.qtd_resultados}">
+                <div id="qtd_result" align="center">
                     <p>Sua busca retornou ${sessionScope.qtd_resultados} resultados</p>
                 </div>
                 <div id="result" align="center">
-                    <%--<table>
+                    <%--form id="form_return" align="center" name="form_return"  method="post"--%>
+                    <table border="0" cellspacing="3" cellpadding="2">
                         <thead>
                             <tr>
                                 <th>Serial</th>
                                 <th>Titulo</th>
                                 <th>Autoria</th>
-                                <th colspan="2">A&ccedil;&otilde;es</th>
+                                <th colspan="2">  A&ccedil;&otilde;es  </th>
                             </tr>
                         </thead>
                         <tbody>
                             <c:forEach items="${sessionScope.resultados}" var="ref">
                                 <tr>
-                                    <td><c:out value="${ref.serialno}" /></td>
-                                    <td><c:out value="${ref.titulo}" /></td>
-                                    <td><c:out value="${ref.autoria}" /></td>
-                                    <td><a
-                                            href="controller?action=update&serialno=<c:out value='${ref.serial}'/>">Update</a></td>
-                                    <td><a
-                                            href="controller?action=delete&serialno=<c:out value='${ref.serial}'/>">Delete</a></td>
+                                    <td>${ref.getSerialno()}</td>
+                                    <td>${ref.getTitulo()}</td>
+                                    <td>${ref.getAutoria()}</td>
+                                    <td><a href="controller?clickedButton=update&serialno=<c:out value='${ref.getSerialno()}'/>">Update</a></td>
+                                    <td><a href="controller?clickedButton=delete&serialno=<c:out value='${ref.getSerialno()}'/>">Delete</a></td>
                                 </tr>
                             </c:forEach>
                         </tbody>
-                    </table>--%>
-                    <c:forEach var="ref" items="${sessionScope.resultados}">
-                            <fieldset>
-                                <legend align="center">
-                                    <span id="tag">Titulo:${ref.getTitulo()}</span> 
-                                </legend>
-                                   <span id="tag">Autoria:${ref.getAutoria()}</span>  <br>
-                                <input type="hidden" name="parser" value="Trabalho1.TratadorResultado"/>
-                                <input type="hidden" name="clickedButton"/>
-                                <input type="button" value="Update" />
-                            </fieldset>
-                    </c:forEach>  
+                    </table>
                 </div>
-            <%--</c:if>--%>
-
+            </c:if>
+            
         </div>
     </body>
 </html>

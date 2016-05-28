@@ -7,15 +7,11 @@ package com.eel418.trab1.controller;
 
 import java.io.IOException;
  
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.eel418.trab1.model.Referencias;
-import com.eel418.trab1.dao.ReferenciasDAO;
 
 /**
  * @author 
@@ -27,25 +23,15 @@ import com.eel418.trab1.dao.ReferenciasDAO;
 
 @WebServlet("/controller")
 public class Controller extends HttpServlet{
-    //private final ReferenciasDAO refDao;
-    /*private static final String CREATE_OR_UPDATE = "/catalogar.jsp";
-    private static final String VIEW_RESULT = "/index.jsp";*/
-    
-    
-    /*
-    public Controller(){
-        super();
-        //refDao = new ReferenciasDAO();
-    }
-    */
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String jspURL = "error.jsp";
         request.setCharacterEncoding("UTF8");
         response.setCharacterEncoding("UTF8");
         try {
-            String pageParser = request.getParameter("parser");
-            ParserImplement parser = new ParserImplement();//(Parser)Class.forName(pageParser).newInstance();
+            //String pageParser = request.getParameter("parser");
+            ParserImplement parser = new ParserImplement();
             jspURL = parser.process(request, response);
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -54,55 +40,7 @@ public class Controller extends HttpServlet{
             request.getRequestDispatcher(jspURL).forward(request, response);
         }
     }
-    
-    /*
-    @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = req.getParameter("parser");
- 
-        if(action.equalsIgnoreCase("create")) {
-            jspURL = CREATE_OR_UPDATE;
-        }
-        else if( action.equalsIgnoreCase("delete")) {
-            int refId = Integer.parseInt(req.getParameter("serialno"));
-            refDao.delete(refId);
-            jspURL = VIEW_RESULT;
-            req.setAttribute("referencias", refDao.getAll());
-        }
-        else if(action.equalsIgnoreCase("update")) { 
-            int refId = Integer.parseInt(req.getParameter("serialno"));
-            Referencias ref = refDao.readById(refId);
-            jspURL = CREATE_OR_UPDATE;
-            req.setAttribute("referencias", ref);
-        } else if(action.equalsIgnoreCase("list")) { 
-            jspURL = VIEW_RESULT;
-            req.setAttribute("referencias", refDao.getAll());
-        }else {
-            jspURL = VIEW_RESULT;
-            req.setAttribute("referencias", refDao.getAll());
-        }
-        RequestDispatcher view = req.getRequestDispatcher(jspURL);
-        view.forward(req, resp);
-    }
-    
-    @Override
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Referencias ref = new Referencias();
-        ref.setTitulo(req.getParameter("titulo"));
-        ref.setAutoria(req.getParameter("autoria"));
-        String serial = req.getParameter("serialno");
- 
-        if( serial == null || serial.isEmpty() )
-            refDao.create(ref);
-        else {
-            ref.setSerialno(Integer.parseInt(serial));
-            refDao.update(ref);
-        }
-        RequestDispatcher view = req.getRequestDispatcher(VIEW_RESULT);
-        req.setAttribute("referencias", refDao.getAll());
-        view.forward(req, resp);
-    }
-*/
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

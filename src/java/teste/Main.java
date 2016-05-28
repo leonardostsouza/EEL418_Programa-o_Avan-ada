@@ -25,12 +25,17 @@ public class Main {
         //ref.setAutoria("testA");
         //ref.setTitulo("testT2");
         //refDao.create(ref);
-        List<Referencias> list = refDao.readByTitulo("testT");
+        /*refDao.delete(39);
+        refDao.delete(38);
+        refDao.delete(36);
+        refDao.delete(35);
+        refDao.delete(34);*/
+        //List<Referencias> list = refDao.readByTitulo("testT");
         //List<Referencias> list = refDao.getAll();
-        for(Iterator<Referencias> i = list.iterator(); i.hasNext(); ) {
+        /*for(Iterator<Referencias> i = list.iterator(); i.hasNext(); ) {
             ref = i.next();
             System.out.println(ref.toString());
-        }
+        }*/
         
         
         //System.out.println(ref.toString());
