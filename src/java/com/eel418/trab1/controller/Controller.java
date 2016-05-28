@@ -55,7 +55,7 @@ public class Controller extends HttpServlet{
         }
         else if(action.equalsIgnoreCase("update")) { 
             int refId = Integer.parseInt(req.getParameter("serialno"));
-            Referencias ref = refDao.read(refId);
+            Referencias ref = refDao.readById(refId);
             jspURL = CREATE_OR_UPDATE;
             req.setAttribute("referencias", ref);
         } else if(action.equalsIgnoreCase("list")) { 

@@ -45,8 +45,8 @@ public class ReferenciasDAO {
         }
     }
     
-    /** reads database entry */
-    public Referencias read(int refId) {
+    /** reads database entry by ID */
+    public Referencias readById(int refId) {
         Referencias ref = new Referencias();
         try{
             conn = DBUtils.getConnection();
@@ -67,6 +67,58 @@ public class ReferenciasDAO {
             e.printStackTrace();
         }
         return ref;
+    }
+    
+    /** reads database entry by title */
+    public List<Referencias> readByTitulo(String titulo) {
+        List<Referencias> refList = new ArrayList<Referencias>();
+        try{
+            conn = DBUtils.getConnection();
+            PreparedStatement query = conn.prepareStatement(
+                    "SELECT * FROM referencias "
+                            + "WHERE titulo = ?");
+            query.setString(1, titulo);
+            ResultSet result = query.executeQuery();
+            
+            while(result.next()) {
+                Referencias ref = new Referencias();
+                ref.setSerialno(result.getInt("serialno"));
+                ref.setTitulo(result.getString("titulo"));
+                ref.setAutoria(result.getString("autoria"));
+                refList.add(ref);
+            }
+            result.close();
+            query.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return refList;
+    }
+    
+    /** reads database entry by title */
+    public List<Referencias> readByAutoria(String autor) {
+        List<Referencias> refList = new ArrayList<Referencias>();
+        try{
+            conn = DBUtils.getConnection();
+            PreparedStatement query = conn.prepareStatement(
+                    "SELECT * FROM referencias "
+                            + "WHERE autoria = ?");
+            query.setString(1, autor);
+            ResultSet result = query.executeQuery();
+            
+            while(result.next()) {
+                Referencias ref = new Referencias();
+                ref.setSerialno(result.getInt("serialno"));
+                ref.setTitulo(result.getString("titulo"));
+                ref.setAutoria(result.getString("autoria"));
+                refList.add(ref);
+            }
+            result.close();
+            query.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return refList;
     }
     
     /** edits database entry */

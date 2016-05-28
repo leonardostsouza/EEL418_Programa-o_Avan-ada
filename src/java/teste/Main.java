@@ -20,8 +20,13 @@ public class Main {
         ReferenciasDAO refDao = new ReferenciasDAO();
         Referencias ref = new Referencias();
         
-        List<Referencias> list = refDao.getAll();
+        System.out.println("comecou");
         
+        //ref.setAutoria("testA");
+        //ref.setTitulo("testT2");
+        //refDao.create(ref);
+        List<Referencias> list = refDao.readByTitulo("testT");
+        //List<Referencias> list = refDao.getAll();
         for(Iterator<Referencias> i = list.iterator(); i.hasNext(); ) {
             ref = i.next();
             System.out.println(ref.toString());
