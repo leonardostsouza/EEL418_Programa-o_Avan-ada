@@ -5,7 +5,7 @@
  */
 
 function submitForm(formID,buttonValue){
-    document.getElementById(formID).buttonId.value=buttonValue;
+    document.getElementById(formID).clickedButton.value=buttonValue;
     document.getElementById(formID).submit();
 }
 

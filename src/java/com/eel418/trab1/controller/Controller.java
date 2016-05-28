@@ -29,7 +29,7 @@ import com.eel418.trab1.dao.ReferenciasDAO;
 public class Controller extends HttpServlet{
     private final ReferenciasDAO refDao;
     private static final String CREATE_OR_UPDATE = "/catalogar.jsp";
-    private static final String VIEW_RESULT = "/result.jsp";
+    private static final String VIEW_RESULT = "/index.jsp";
     
     public Controller(){
         super();
