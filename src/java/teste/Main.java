@@ -22,20 +22,25 @@ public class Main {
         
         System.out.println("comecou");
         
-        //ref.setAutoria("testA");
-        //ref.setTitulo("testT2");
+        //ref.setAutoria("testA2");
+        //ref.setTitulo("Titulo2 Teste2");
         //refDao.create(ref);
-        /*refDao.delete(39);
-        refDao.delete(38);
-        refDao.delete(36);
-        refDao.delete(35);
-        refDao.delete(34);*/
-        //List<Referencias> list = refDao.readByTitulo("testT");
+        //ref.setTitulo("Titulo2 Teste2");
+        //ref.setSerialno(57);
+        //refDao.update(ref);
+        //refDao.delete(49);
+        //refDao.delete(38);
+        //refDao.delete(36);
+        //refDao.delete(35);
+        //refDao.delete(34);
+        //refDao.readById(13);
+        List<Referencias> list = refDao.readByTitulo("Applied Probability");
+        //System.out.println(list.size());
         //List<Referencias> list = refDao.getAll();
-        /*for(Iterator<Referencias> i = list.iterator(); i.hasNext(); ) {
+        for(Iterator<Referencias> i = list.iterator(); i.hasNext(); ) {
             ref = i.next();
             System.out.println(ref.toString());
-        }*/
+        }
         
         
         //System.out.println(ref.toString());

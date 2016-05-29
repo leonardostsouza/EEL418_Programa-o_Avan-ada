@@ -6,12 +6,9 @@
 package com.eel418.trab1.dao;
 
 /**
- * @author Leonardo dos Santos Teixeira de Souza
- * DRE: 112086681
- * Engenharia de Computação e Informação
- * Universidade Federal do Rio de Janeiro
+ * @author Leonardo dos Santos Teixeira de Souza DRE: 112086681 Engenharia de
+ * Computação e Informação Universidade Federal do Rio de Janeiro
  */
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,160 +19,180 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
-class Tuple implements Comparable<Tuple>{
-    public Tuple(){
+class Tuple implements Comparable<Tuple> {
+
+    public Tuple() {
         serialno = 0;
-        count = 0;            
+        count = 0;
     }
+
     @Override
-    public int compareTo(Tuple otherTuple)
-    {
+    public int compareTo(Tuple otherTuple) {
         return this.serialno.compareTo(otherTuple.serialno);
     }
-                
+
     public Integer serialno;
     public int count;
 }
 
-
 public class ReferenciasDAO {
+
     private Connection conn;
-    
-    public ReferenciasDAO(){
+
+    public ReferenciasDAO() {
         conn = null;
     }
 
-    /** creates new database entry
-     * @param ref */
-    public void create(Referencias ref){
-        try{
+    /**
+     * creates new database entry
+     *
+     * @param ref
+     */
+    public void create(Referencias ref) {
+        try {
             conn = DBUtils.getConnection();
+
+            // Insert entry in "referencias" table
             PreparedStatement query = conn.prepareStatement(
                     "INSERT INTO referencias (titulo, autoria) VALUES(?, ?);");
             query.setString(1, ref.getTitulo());
             query.setString(2, ref.getAutoria());
-            
             query.executeUpdate();
             query.close();
-        }catch(Exception e){
+
+            // Insert entries in "palavrasdotitulo" table
+            List<String> words = Arrays.asList(ref.getTitulo().split(" "));
+            for (Iterator<String> i = words.iterator(); i.hasNext();) {
+                String word = i.next();
+                PreparedStatement query2 = conn.prepareStatement(
+                        "INSERT INTO palavrasdotitulo (palavra, serialno_referencias) "
+                                + "VALUES (?, (SELECT serialno FROM referencias "
+                                + "WHERE titulo = ? AND autoria = ?));");
+                query2.setString(1, word.toUpperCase());
+                query2.setString(2, ref.getTitulo());
+                query2.setString(3, ref.getAutoria());
+                query2.executeUpdate();
+                query2.close();
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    /** reads database entry by ID
+
+    /**
+     * reads database entry by ID
+     *
      * @param refId
-     * @return  */
+     * @return
+     */
     public Referencias readById(int refId) {
         Referencias ref = new Referencias();
-        try{
+        try {
             conn = DBUtils.getConnection();
             PreparedStatement query = conn.prepareStatement(
                     "SELECT * FROM referencias "
-                            + "WHERE serialno = ?");
+                    + "WHERE serialno = ?");
             query.setInt(1, refId);
             ResultSet result = query.executeQuery();
-            
-            while(result.next()){
+
+            while (result.next()) {
                 ref.setSerialno(result.getInt("serialno"));
                 ref.setTitulo(result.getString("titulo"));
                 ref.setAutoria(result.getString("autoria"));
             }
             result.close();
             query.close();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return ref;
     }
-    
-    /** reads database entry by title
+
+    /**
+     * reads database entry by title
+     *
      * @param titulo
-     * @return  */
+     * @return
+     */
     public List<Referencias> readByTitulo(String titulo) {
-        Referencias ref;
+        Tuple tuple;
+        ReferenciasDAO refDao = new ReferenciasDAO();
         List<Referencias> refList = new ArrayList<>();
         List<Tuple> tupleList = new ArrayList<>();
 
-        try{
+        try {
             List<String> words = Arrays.asList(titulo.split(" ")); //separate words to use in search
-            
             conn = DBUtils.getConnection();
-            
+
             // foreach word
-            int itt = 0;// simple iterator
-            while (words.iterator().hasNext()){   
+            for (Iterator<String> i = words.iterator(); i.hasNext();) {
+                String word = i.next();
                 // run query 
                 PreparedStatement query = conn.prepareStatement(
-                    "SELECT serialno_referencias FROM palavrasdotitulo "
-                            + "WHERE palavra = ?");
-                query.setString(1, words.get(itt));
+                        "SELECT serialno_referencias FROM palavrasdotitulo "
+                        + "WHERE palavra = ?");
+                query.setString(1, word.toUpperCase());
                 ResultSet result = query.executeQuery();
-                
+
                 // populate tuple list
-                while(result.next()){
-                    int targetSerialno = result.getInt("serialno_referencias");
+                while (result.next()) {
+                    int targetSerialno = result.getInt("serialno_referencias"); //serialno to look for
                     boolean exists = false; // tells if target serialno is already inside tupleList
                     int itt2 = 0; // simple iterator
                     // look for targetSerialno inside tupleList
-                    while (tupleList.iterator().hasNext()){
-                        if(targetSerialno == tupleList.get(itt2).serialno){
-                            tupleList.get(itt2).count=tupleList.get(itt2).count+1;
+                    for (Iterator<Tuple> j = tupleList.iterator(); j.hasNext();) {
+                        tuple = j.next();
+                        if (targetSerialno == tuple.serialno) {
+                            tupleList.get(tupleList.indexOf(tuple)).count = tuple.count + 1;
                             exists = true;
                         }
                     }
                     // if targetSerialno is not in tupleList
-                    if(!exists){
-                        Tuple tuple = new Tuple();
+                    if (!exists) {
+                        tuple = new Tuple();
                         tuple.serialno = targetSerialno;
                         tuple.count = 1;
-                        
+
                         tupleList.add(tuple);
                     }
                 }
-                itt++;
+                query.close();
             }
-            
-            
-            
-            
-            PreparedStatement query = conn.prepareStatement(
-                    "SELECT * FROM referencias "
-                            + "WHERE titulo = ?");
-            query.setString(1, titulo);
-            ResultSet result = query.executeQuery();
-            
-            while(result.next()) {
-                Referencias ref = new Referencias();
-                ref.setSerialno(result.getInt("serialno"));
-                ref.setTitulo(result.getString("titulo"));
-                ref.setAutoria(result.getString("autoria"));
+
+            // order tupleList by serialno
+            Collections.sort(tupleList);
+
+            // populate refList
+            for (int i = 0; i < tupleList.size(); i++) {
+                Referencias ref = refDao.readById(tupleList.get(i).serialno);
                 refList.add(ref);
             }
-            result.close();
-            query.close();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return refList;
     }
-    
-    /** reads database entry by title
+
+    /**
+     * reads database entry by title
+     *
      * @param autor
-     * @return  */
+     * @return
+     */
     public List<Referencias> readByAutoria(String autor) {
         List<Referencias> refList = new ArrayList<>();
-        try{
+        try {
             conn = DBUtils.getConnection();
             PreparedStatement query = conn.prepareStatement(
                     "SELECT * FROM referencias "
-                            + "WHERE autoria = ?");
+                    + "WHERE autoria = ?");
             query.setString(1, autor);
             ResultSet result = query.executeQuery();
-            
-            while(result.next()) {
+
+            while (result.next()) {
                 Referencias ref = new Referencias();
                 ref.setSerialno(result.getInt("serialno"));
                 ref.setTitulo(result.getString("titulo"));
@@ -184,54 +201,76 @@ public class ReferenciasDAO {
             }
             result.close();
             query.close();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return refList;
     }
-    
-    /** edits database entry
-     * @param ref */
+
+    /**
+     * edits database entry
+     *
+     * @param ref
+     */
     public void update(Referencias ref) {
-        try{
+        try {
             conn = DBUtils.getConnection();
-            PreparedStatement query = conn.prepareStatement(
+            
+            delete(ref.getSerialno());
+            create(ref);
+            /*PreparedStatement query = conn.prepareStatement(
                     "UPDATE referencias SET titulo = ?, autoria = ? "
-                            + "WHERE serialno = ?;");
+                    + "WHERE serialno = ?;");
             query.setString(1, ref.getTitulo());
             query.setString(2, ref.getAutoria());
             query.setInt(3, ref.getSerialno());
             query.executeUpdate();
-            query.close();
-        }catch(Exception e){
+            query.close();*/
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    /** deletes database entry
-     * @param refId */
+
+    /**
+     * deletes database entry
+     *
+     * @param refId
+     */
     public void delete(int refId) {
-        try{
-            conn = DBUtils.getConnection();            
+        try {
+            conn = DBUtils.getConnection();
+            
+            // delete from "referencias" table
             PreparedStatement query = conn.prepareStatement(
                     "DELETE FROM referencias WHERE serialno = ?;");
             query.setInt(1, refId);
             query.executeUpdate();
             query.close();
-        }catch(Exception e){
+            
+            // delete from "rpalavrasdotitulo" table
+            PreparedStatement query2 = conn.prepareStatement(
+                    "DELETE FROM palavrasdotitulo WHERE serialno_referencias = ?;");
+            query2.setInt(1, refId);
+            query2.executeUpdate();
+            query2.close();
+            
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    /** shows all database entries
-     * @return  */
+
+    /**
+     * shows all database entries
+     *
+     * @return
+     */
     public List<Referencias> getAll() {
         List<Referencias> references = new ArrayList<>();
-        try{
-            conn = DBUtils.getConnection();            
+        try {
+            conn = DBUtils.getConnection();
             Statement query = conn.createStatement();
             ResultSet result = query.executeQuery("SELECT * FROM referencias ");
-            while(result.next()) {
+            while (result.next()) {
                 Referencias ref = new Referencias();
                 ref.setSerialno(result.getInt("serialno"));
                 ref.setTitulo(result.getString("titulo"));
@@ -240,7 +279,7 @@ public class ReferenciasDAO {
             }
             result.close();
             query.close();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return references;
