@@ -20,7 +20,26 @@ import com.eel418.trab1.model.Referencias;
 import com.eel418.trab1.utils.DBUtils;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
+class Tuple implements Comparable<Tuple>{
+    public Tuple(){
+        serialno = 0;
+        count = 0;            
+    }
+    @Override
+    public int compareTo(Tuple otherTuple)
+    {
+        return this.serialno.compareTo(otherTuple.serialno);
+    }
+                
+    public Integer serialno;
+    public int count;
+}
+
 
 public class ReferenciasDAO {
     private Connection conn;
@@ -29,7 +48,8 @@ public class ReferenciasDAO {
         conn = null;
     }
 
-    /** creates new database entry */
+    /** creates new database entry
+     * @param ref */
     public void create(Referencias ref){
         try{
             conn = DBUtils.getConnection();
@@ -45,7 +65,9 @@ public class ReferenciasDAO {
         }
     }
     
-    /** reads database entry by ID */
+    /** reads database entry by ID
+     * @param refId
+     * @return  */
     public Referencias readById(int refId) {
         Referencias ref = new Referencias();
         try{
@@ -69,11 +91,56 @@ public class ReferenciasDAO {
         return ref;
     }
     
-    /** reads database entry by title */
+    /** reads database entry by title
+     * @param titulo
+     * @return  */
     public List<Referencias> readByTitulo(String titulo) {
-        List<Referencias> refList = new ArrayList<Referencias>();
+        Referencias ref;
+        List<Referencias> refList = new ArrayList<>();
+        List<Tuple> tupleList = new ArrayList<>();
+
         try{
+            List<String> words = Arrays.asList(titulo.split(" ")); //separate words to use in search
+            
             conn = DBUtils.getConnection();
+            
+            // foreach word
+            int itt = 0;// simple iterator
+            while (words.iterator().hasNext()){   
+                // run query 
+                PreparedStatement query = conn.prepareStatement(
+                    "SELECT serialno_referencias FROM palavrasdotitulo "
+                            + "WHERE palavra = ?");
+                query.setString(1, words.get(itt));
+                ResultSet result = query.executeQuery();
+                
+                // populate tuple list
+                while(result.next()){
+                    int targetSerialno = result.getInt("serialno_referencias");
+                    boolean exists = false; // tells if target serialno is already inside tupleList
+                    int itt2 = 0; // simple iterator
+                    // look for targetSerialno inside tupleList
+                    while (tupleList.iterator().hasNext()){
+                        if(targetSerialno == tupleList.get(itt2).serialno){
+                            tupleList.get(itt2).count=tupleList.get(itt2).count+1;
+                            exists = true;
+                        }
+                    }
+                    // if targetSerialno is not in tupleList
+                    if(!exists){
+                        Tuple tuple = new Tuple();
+                        tuple.serialno = targetSerialno;
+                        tuple.count = 1;
+                        
+                        tupleList.add(tuple);
+                    }
+                }
+                itt++;
+            }
+            
+            
+            
+            
             PreparedStatement query = conn.prepareStatement(
                     "SELECT * FROM referencias "
                             + "WHERE titulo = ?");
@@ -95,9 +162,11 @@ public class ReferenciasDAO {
         return refList;
     }
     
-    /** reads database entry by title */
+    /** reads database entry by title
+     * @param autor
+     * @return  */
     public List<Referencias> readByAutoria(String autor) {
-        List<Referencias> refList = new ArrayList<Referencias>();
+        List<Referencias> refList = new ArrayList<>();
         try{
             conn = DBUtils.getConnection();
             PreparedStatement query = conn.prepareStatement(
@@ -121,7 +190,8 @@ public class ReferenciasDAO {
         return refList;
     }
     
-    /** edits database entry */
+    /** edits database entry
+     * @param ref */
     public void update(Referencias ref) {
         try{
             conn = DBUtils.getConnection();
@@ -138,7 +208,8 @@ public class ReferenciasDAO {
         }
     }
     
-    /** deletes database entry */
+    /** deletes database entry
+     * @param refId */
     public void delete(int refId) {
         try{
             conn = DBUtils.getConnection();            
@@ -152,9 +223,10 @@ public class ReferenciasDAO {
         }
     }
     
-    /** shows all database entries */
+    /** shows all database entries
+     * @return  */
     public List<Referencias> getAll() {
-        List<Referencias> references = new ArrayList<Referencias>();
+        List<Referencias> references = new ArrayList<>();
         try{
             conn = DBUtils.getConnection();            
             Statement query = conn.createStatement();
@@ -173,5 +245,4 @@ public class ReferenciasDAO {
         }
         return references;
     }
-    
 }
