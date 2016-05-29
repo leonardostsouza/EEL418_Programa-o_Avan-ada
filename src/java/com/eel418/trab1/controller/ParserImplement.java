@@ -14,8 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author Leonardo dos Santos Teixeira de Souza DRE: 112086681 Engenharia de
- * Computação e Informação Universidade Federal do Rio de Janeiro
+ * @author Leonardo dos Santos Teixeira de Souza 
+ * DRE: 112086681 
+ * Engenharia de Computação e Informação 
+ * Universidade Federal do Rio de Janeiro
  */
 public class ParserImplement implements Parser {
 
@@ -24,7 +26,6 @@ public class ParserImplement implements Parser {
         String forward_url = "error.jsp";
 
         String clickedButton = request.getParameter("clickedButton");
-        //Referencias ref = new Referencias();
         switch (clickedButton) {
             case "read": {
                 forward_url = "index.jsp";
@@ -45,6 +46,7 @@ public class ParserImplement implements Parser {
 
                 request.getSession().setAttribute("qtd_resultados", Integer.toString(refList.size()));
                 request.getSession().setAttribute("resultados", refList);
+                request.getSession().setAttribute("msg", "null");
                 break;
             }
             case "update": {
@@ -58,10 +60,13 @@ public class ParserImplement implements Parser {
                 refList.add(ref);
 
                 request.getSession().setAttribute("referencia", refList);
+                request.getSession().setAttribute("serialno", refList.get(0).getSerialno());
+                request.getSession().setAttribute("msg", "null");
+                
                 break;
             }
             case "update_confirm": {
-                forward_url = "index.jsp";
+                forward_url = "edit.jsp";
 
                 ReferenciasDAO refDao = new ReferenciasDAO();
                 int serialno = Integer.parseInt(request.getParameter("serialno"));
@@ -79,7 +84,9 @@ public class ParserImplement implements Parser {
                     }
 
                     refDao.update(ref);
+                    request.getSession().setAttribute("msg", "Edição realizada com sucesso");
                 } catch (Exception e) {
+                    request.getSession().setAttribute("msg", "Um erro ocorreu");
                     forward_url = "error.jsp";
                     e.printStackTrace();
                 }
@@ -103,8 +110,9 @@ public class ParserImplement implements Parser {
                     }
 
                     refDao.create(ref);
+                    request.getSession().setAttribute("msg", "Referencia criada com sucesso!");
                 } catch (Exception e) {
-                    forward_url = "error.jsp";
+                    request.getSession().setAttribute("msg", "Falha ao criar nova referencia");
                     e.printStackTrace();
                 }
                 break;
@@ -117,8 +125,9 @@ public class ParserImplement implements Parser {
 
                 try {
                     refDao.delete(serialno);
+                    request.getSession().setAttribute("msg", "Referencia apagada com sucesso");
                 } catch (Exception e) {
-                    forward_url = "error.jsp";
+                    request.getSession().setAttribute("msg", "Falha ao apagar entrada");
                     e.printStackTrace();
                 }
                 break;

@@ -72,7 +72,10 @@
                     </table>
                 </div>
             </c:if>
-            
+            <div id="alert_div" msg="${sessionScope.msg}"/>
         </div>
     </body>
+    <script type="text/javascript"> window.onload = function () {
+                alertMsgOnDelete('alert_div');
+            };</script>
 </html>

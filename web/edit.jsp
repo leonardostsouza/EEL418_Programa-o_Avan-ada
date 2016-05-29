@@ -18,6 +18,9 @@
         <div id="main">
             <div id="header" align="center"><h1>Editar</h1></div>
             <div id="form_div" align="center">
+                <c:if test="${sessionScope.serialno == 0}">
+                    <script type="text/javascript">reportError();</script>
+                </c:if>
                 <c:forEach items="${sessionScope.referencia}" var="ref">
                     <form id="form_update" action="controller" method="POST">
                         <input type="hidden" name="clickedButton"/>
@@ -32,12 +35,16 @@
                             <input type="text" name="new_autoria" placeholder="${ref.getAutoria()}" size="100"/>
                         </div>
                         <br/>
-                        <a href="index.jsp" onClick="Javascript:submitForm('form_update', 'update_confirm');">MODIFICAR</a>
+                        <a href="#" onClick="Javascript:submitForm('form_update', 'update_confirm');">MODIFICAR</a>
                         <a href="index.jsp">CANCELAR</a>
                     </form>
                 </c:forEach>
+                <div id="alert_div" msg="${sessionScope.msg}"/>
             </div>
 
         </div>
     </body>
+    <script type="text/javascript"> window.onload = function () {
+            alertMsgIndex('alert_div');
+        };</script>
 </html>

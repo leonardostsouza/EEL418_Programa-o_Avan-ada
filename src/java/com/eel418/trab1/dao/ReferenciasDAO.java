@@ -54,28 +54,40 @@ public class ReferenciasDAO {
     public void create(Referencias ref) {
         try {
             conn = DBUtils.getConnection();
+            // Check for duplicates
+            PreparedStatement query0 = conn.prepareStatement(
+                    "SELECT serialno FROM referencias WHERE titulo = ? AND autoria = ?;");
+            query0.setString(1, ref.getTitulo());
+            query0.setString(2, ref.getAutoria());
+            ResultSet result = query0.executeQuery();
 
-            // Insert entry in "referencias" table
-            PreparedStatement query = conn.prepareStatement(
-                    "INSERT INTO referencias (titulo, autoria) VALUES(?, ?);");
-            query.setString(1, ref.getTitulo());
-            query.setString(2, ref.getAutoria());
-            query.executeUpdate();
-            query.close();
+            // if no duplicates are found
+            if (!result.isBeforeFirst()) {
+                result.close();
 
-            // Insert entries in "palavrasdotitulo" table
-            List<String> words = Arrays.asList(ref.getTitulo().split(" "));
-            for (Iterator<String> i = words.iterator(); i.hasNext();) {
-                String word = i.next();
-                PreparedStatement query2 = conn.prepareStatement(
-                        "INSERT INTO palavrasdotitulo (palavra, serialno_referencias) "
-                                + "VALUES (?, (SELECT serialno FROM referencias "
-                                + "WHERE titulo = ? AND autoria = ?));");
-                query2.setString(1, word.toUpperCase());
-                query2.setString(2, ref.getTitulo());
-                query2.setString(3, ref.getAutoria());
-                query2.executeUpdate();
-                query2.close();
+                // Insert entry in "referencias" table
+                PreparedStatement query = conn.prepareStatement(
+                        "INSERT INTO referencias (titulo, autoria) VALUES(?, ?);");
+                query.setString(1, ref.getTitulo());
+                query.setString(2, ref.getAutoria());
+                query.executeUpdate();
+                query.close();
+
+                // Insert entries in "palavrasdotitulo" table
+                List<String> words = Arrays.asList(ref.getTitulo().split(" "));
+                for (String word : words) {
+                    PreparedStatement query2 = conn.prepareStatement(
+                            "INSERT INTO palavrasdotitulo (palavra, serialno_referencias) "
+                                    + "VALUES (?, (SELECT serialno FROM referencias "
+                                    + "WHERE titulo = ? AND autoria = ?));");
+                    query2.setString(1, word.toUpperCase());
+                    query2.setString(2, ref.getTitulo());
+                    query2.setString(3, ref.getAutoria());
+                    query2.executeUpdate();
+                    query2.close();
+                }
+            } else {
+                result.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -215,7 +227,7 @@ public class ReferenciasDAO {
     public void update(Referencias ref) {
         try {
             conn = DBUtils.getConnection();
-            
+
             delete(ref.getSerialno());
             create(ref);
             /*PreparedStatement query = conn.prepareStatement(
@@ -239,21 +251,21 @@ public class ReferenciasDAO {
     public void delete(int refId) {
         try {
             conn = DBUtils.getConnection();
-            
+
             // delete from "referencias" table
             PreparedStatement query = conn.prepareStatement(
                     "DELETE FROM referencias WHERE serialno = ?;");
             query.setInt(1, refId);
             query.executeUpdate();
             query.close();
-            
+
             // delete from "rpalavrasdotitulo" table
             PreparedStatement query2 = conn.prepareStatement(
                     "DELETE FROM palavrasdotitulo WHERE serialno_referencias = ?;");
             query2.setInt(1, refId);
             query2.executeUpdate();
             query2.close();
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
