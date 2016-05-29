@@ -75,8 +75,10 @@
             <div id="alert_div" msg="${sessionScope.msg}"/>
         </div>
     </body>
+    <c:if test="${not empty sessionScope.msg}">
     <script type="text/javascript"> window.onload = function () {
                 alertMsg('alert_div');
                 resetMsg();
             };</script>
+    </c:if>
 </html>
