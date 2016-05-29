@@ -1,7 +1,7 @@
 <%-- 
     Document   : edit
     Created on : 27/05/2016, 17:19:43
-    Author     : Leonardo
+    Author     : Leonardo Souza
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -27,24 +27,20 @@
                         <input type="hidden" name="serialno" value="${ref.getSerialno()}"/>
                         Titulo
                         <div align="center">
-                            <input type="text" name="new_titulo" placeholder="${ref.getTitulo()}" size="100"/>
+                            <input type="text" name="titulo" placeholder="${ref.getTitulo()}" size="100"/>
                         </div>
                         <br/>
                         Autoria
                         <div align="center">
-                            <input type="text" name="new_autoria" placeholder="${ref.getAutoria()}" size="100"/>
+                            <input type="text" name="autoria" placeholder="${ref.getAutoria()}" size="100"/>
                         </div>
                         <br/>
                         <a href="#" onClick="Javascript:submitForm('form_update', 'update_confirm');">MODIFICAR</a>
+                        <a href="#" onClick="Javascript:limparCampos('form_update');">LIMPAR</a>
                         <a href="index.jsp">CANCELAR</a>
                     </form>
                 </c:forEach>
-                <div id="alert_div" msg="${sessionScope.msg}"/>
             </div>
-
         </div>
     </body>
-    <script type="text/javascript"> window.onload = function () {
-            alertMsgIndex('alert_div');
-        };</script>
 </html>

@@ -19,6 +19,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -31,11 +32,11 @@ class Tuple implements Comparable<Tuple> {
 
     @Override
     public int compareTo(Tuple otherTuple) {
-        return this.serialno.compareTo(otherTuple.serialno);
+        return this.count.compareTo(otherTuple.count);
     }
 
-    public Integer serialno;
-    public int count;
+    public int serialno;
+    public Integer count;
 }
 
 public class ReferenciasDAO {
@@ -140,12 +141,11 @@ public class ReferenciasDAO {
             conn = DBUtils.getConnection();
 
             // foreach word
-            for (Iterator<String> i = words.iterator(); i.hasNext();) {
-                String word = i.next();
+            for (String word : words) {
                 // run query 
                 PreparedStatement query = conn.prepareStatement(
                         "SELECT serialno_referencias FROM palavrasdotitulo "
-                        + "WHERE palavra = ?");
+                                + "WHERE palavra = ?");
                 query.setString(1, word.toUpperCase());
                 ResultSet result = query.executeQuery();
 
@@ -153,7 +153,6 @@ public class ReferenciasDAO {
                 while (result.next()) {
                     int targetSerialno = result.getInt("serialno_referencias"); //serialno to look for
                     boolean exists = false; // tells if target serialno is already inside tupleList
-                    int itt2 = 0; // simple iterator
                     // look for targetSerialno inside tupleList
                     for (Iterator<Tuple> j = tupleList.iterator(); j.hasNext();) {
                         tuple = j.next();
@@ -174,11 +173,13 @@ public class ReferenciasDAO {
                 query.close();
             }
 
-            // order tupleList by serialno
+            // order tupleList by count (descending)
             Collections.sort(tupleList);
-
+            Collections.reverse(tupleList);
+            
             // populate refList
             for (int i = 0; i < tupleList.size(); i++) {
+                System.out.println(tupleList.get(i).count);
                 Referencias ref = refDao.readById(tupleList.get(i).serialno);
                 refList.add(ref);
             }
@@ -230,14 +231,6 @@ public class ReferenciasDAO {
 
             delete(ref.getSerialno());
             create(ref);
-            /*PreparedStatement query = conn.prepareStatement(
-                    "UPDATE referencias SET titulo = ?, autoria = ? "
-                    + "WHERE serialno = ?;");
-            query.setString(1, ref.getTitulo());
-            query.setString(2, ref.getAutoria());
-            query.setInt(3, ref.getSerialno());
-            query.executeUpdate();
-            query.close();*/
         } catch (Exception e) {
             e.printStackTrace();
         }

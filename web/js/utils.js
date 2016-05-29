@@ -10,7 +10,6 @@ function submitForm(formID,buttonValue){
 }
 
 function limparCampos(formID){
-    document.getElementById(formID).serialno.value='';
     document.getElementById(formID).titulo.value='';
     document.getElementById(formID).autoria.value='';
 }
@@ -19,14 +18,13 @@ function alertMsg(alert_div){
     var msg = document.getElementById(alert_div).getAttribute("msg");
     if (msg !== "null") {
             alert(msg);
-            window.location.href="./index.jsp";
     }
 }
 
-function alertMsgOnDelete(alert_div){
+function resetMsg(alert_div){
     var msg = document.getElementById(alert_div).getAttribute("msg");
     if (msg !== "null") {
-            alert(msg);
+            window.location.href="./controller?clickedButton=busca";
     }
 }
 

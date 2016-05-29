@@ -23,7 +23,7 @@ public class ParserImplement implements Parser {
 
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response) {
-        String forward_url = "error.jsp";
+        String forward_url;
 
         String clickedButton = request.getParameter("clickedButton");
         switch (clickedButton) {
@@ -66,19 +66,19 @@ public class ParserImplement implements Parser {
                 break;
             }
             case "update_confirm": {
-                forward_url = "edit.jsp";
+                forward_url = "index.jsp";
 
                 ReferenciasDAO refDao = new ReferenciasDAO();
                 int serialno = Integer.parseInt(request.getParameter("serialno"));
                 Referencias ref = refDao.readById(serialno);
 
                 try {
-                    String new_titulo = request.getParameter("new_titulo");
+                    String new_titulo = request.getParameter("titulo");
                     if (!new_titulo.isEmpty()) {
                         ref.setTitulo(new_titulo);
                     }
 
-                    String new_autoria = request.getParameter("new_autoria");
+                    String new_autoria = request.getParameter("autoria");
                     if (!new_autoria.isEmpty()) {
                         ref.setAutoria(new_autoria);
                     }
@@ -99,12 +99,12 @@ public class ParserImplement implements Parser {
                 Referencias ref = new Referencias();
 
                 try {
-                    String new_titulo = request.getParameter("new_titulo");
+                    String new_titulo = request.getParameter("titulo");
                     if (!new_titulo.isEmpty()) {
                         ref.setTitulo(new_titulo);
                     }
 
-                    String new_autoria = request.getParameter("new_autoria");
+                    String new_autoria = request.getParameter("autoria");
                     if (!new_autoria.isEmpty()) {
                         ref.setAutoria(new_autoria);
                     }
@@ -130,6 +130,21 @@ public class ParserImplement implements Parser {
                     request.getSession().setAttribute("msg", "Falha ao apagar entrada");
                     e.printStackTrace();
                 }
+                break;
+            }
+            case "catalogar": {
+                forward_url = "catalogar.jsp";
+                request.getSession().setAttribute("msg", "null");
+                break;
+            }
+            case "busca": {
+                forward_url = "index.jsp";
+                request.getSession().setAttribute("msg", "null");
+                break;
+            }
+            default: {
+                forward_url = "error.jsp";
+                request.getSession().setAttribute("msg", "null");
                 break;
             }
         }

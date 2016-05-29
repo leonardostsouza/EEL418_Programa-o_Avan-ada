@@ -30,7 +30,6 @@ public class Controller extends HttpServlet{
         request.setCharacterEncoding("UTF8");
         response.setCharacterEncoding("UTF8");
         try {
-            //String pageParser = request.getParameter("parser");
             ParserImplement parser = new ParserImplement();
             jspURL = parser.process(request, response);
         } catch (Exception e) {

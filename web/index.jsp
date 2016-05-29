@@ -19,7 +19,7 @@
         <div id="main">
             <div id="pages">
                 <div id="align_cat" align="right">
-                    <a href="catalogar.jsp">CATALOGAR</a>
+                    <a href="controller?clickedButton=catalogar">CATALOGAR</a>
                 </div>
                 <div id="align_busca" align="center">
                     <h1>BUSCA</h1>
@@ -76,6 +76,7 @@
         </div>
     </body>
     <script type="text/javascript"> window.onload = function () {
-                alertMsgOnDelete('alert_div');
+                alertMsg('alert_div');
+                resetMsg();
             };</script>
 </html>

@@ -5,10 +5,8 @@
  */
 package com.eel418.trab1.utils;
 
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.util.Properties;
 
 /**
  * @author 
@@ -30,20 +28,7 @@ public class DBUtils {
     
     public static Connection getConnection(){
         if (conn == null){
-            //InputStream is = DBUtils.class.getClassLoader().getResourceAsStream( "/db.properties" );
-            //Properties props = new Properties();
-            
             try{
-                /*
-                props.load(is);
-                String driver = props.getProperty("DRIVER");
-                String user = props.getProperty("USER");
-                String pwd = props.getProperty("PASSWORD");
-                String host = props.getProperty("HOST");
-                String port = props.getProperty("PORT");
-                String db = props.getProperty("DATABASE");
-                String url = driver + "://" + host + ":" + port + "/" + db;
-                */
                 conn = DriverManager.getConnection(URL, USER, PASSWORD);
             }catch (Exception e){
                 e.printStackTrace();
