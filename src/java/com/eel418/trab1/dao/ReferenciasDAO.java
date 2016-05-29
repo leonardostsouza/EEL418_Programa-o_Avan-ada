@@ -201,8 +201,8 @@ public class ReferenciasDAO {
             conn = DBUtils.getConnection();
             PreparedStatement query = conn.prepareStatement(
                     "SELECT * FROM referencias "
-                    + "WHERE autoria = ?");
-            query.setString(1, autor);
+                    + "WHERE autoria like ?");
+            query.setString(1, "%" + autor + "%");
             ResultSet result = query.executeQuery();
 
             while (result.next()) {

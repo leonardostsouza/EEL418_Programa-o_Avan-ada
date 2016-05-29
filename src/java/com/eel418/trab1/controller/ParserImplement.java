@@ -28,7 +28,7 @@ public class ParserImplement implements Parser {
         String clickedButton = request.getParameter("clickedButton");
         switch (clickedButton) {
             case "read": {
-                forward_url = "index.jsp";
+                forward_url = "busca.jsp";
                 String tipo_de_busca = request.getParameter("tipo_de_busca");
                 String parametro = request.getParameter("parametro");
                 List<Referencias> refList = new ArrayList();
@@ -138,8 +138,9 @@ public class ParserImplement implements Parser {
                 break;
             }
             case "busca": {
-                forward_url = "index.jsp";
+                forward_url = "busca.jsp";
                 request.getSession().setAttribute("msg", "null");
+                request.getSession().setAttribute("qtd_resultados", null);
                 break;
             }
             default: {
