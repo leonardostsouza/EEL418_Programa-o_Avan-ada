@@ -29,7 +29,7 @@
             <%-- Formulario para busca --%>
             <div id="form_div" align="center">
                 <form id="form_busca" name="form_busca" action="controller" method="POST">
-                    <input type="hidden" name="parser" value="com.eel418.trab1.controller.Parser"/>
+                    <%--input type="hidden" name="parser" value="com.eel418.trab1.controller.Parser"/--%>
                     <input type="hidden" name="clickedButton"/>
                     <select name="tipo_de_busca">
                         <option name="opcao1" value="titulo" selected>Titulo</option>
@@ -64,8 +64,8 @@
                                     <td>${ref.getSerialno()}</td>
                                     <td>${ref.getTitulo()}</td>
                                     <td>${ref.getAutoria()}</td>
-                                    <td><a href="controller?clickedButton=update&serialno=<c:out value='${ref.getSerialno()}'/>">Update</a></td>
-                                    <td><a href="controller?clickedButton=delete&serialno=<c:out value='${ref.getSerialno()}'/>">Delete</a></td>
+                                    <td><a href="controller?clickedButton=update&serialno=<c:out value='${ref.getSerialno()}'/>">Editar</a></td>
+                                    <td><a href="controller?clickedButton=delete&serialno=<c:out value='${ref.getSerialno()}'/>">Apagar</a></td>
                                 </tr>
                             </c:forEach>
                         </tbody>

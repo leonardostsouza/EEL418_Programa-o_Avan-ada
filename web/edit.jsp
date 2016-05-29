@@ -19,12 +19,21 @@
             <div id="header" align="center"><h1>Editar</h1></div>
             <div id="form_div" align="center">
                 <c:forEach items="${sessionScope.referencia}" var="ref">
-                    <form id="form_update" action="controler" method="POST">
-                        Titulo<div align="center"><input type="text" name="titulo" value="${ref.getTitulo()}" size="100"/></div>
+                    <form id="form_update" action="controller" method="POST">
+                        <input type="hidden" name="clickedButton"/>
+                        <input type="hidden" name="serialno" value="${ref.getSerialno()}"/>
+                        Titulo
+                        <div align="center">
+                            <input type="text" name="new_titulo" placeholder="${ref.getTitulo()}" size="100"/>
+                        </div>
                         <br/>
-                        Autoria<div align="center"><input type="text" name="autoria" value="${ref.getAutoria()}" size="100"/></div>
+                        Autoria
+                        <div align="center">
+                            <input type="text" name="new_autoria" placeholder="${ref.getAutoria()}" size="100"/>
+                        </div>
                         <br/>
-                        <input type="submit" value="OK" />
+                        <a href="index.jsp" onClick="Javascript:submitForm('form_update', 'update_confirm');">MODIFICAR</a>
+                        <a href="index.jsp">CANCELAR</a>
                     </form>
                 </c:forEach>
             </div>
