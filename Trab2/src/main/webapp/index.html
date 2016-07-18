@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>BiblioPDF</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+        <link rel="stylesheet" href="css/bibliopdf.css" type="text/css"/>
+
+        <script type="text/javascript" src="js/behavior.js"></script>
+    </head>
+    <body>
+    <footer>Autor: Leonardo dos Santos Teixeira de Souza&nbsp;&nbsp;DRE: 112086681</footer>
+
+    <div id="idLoading" style="display:none">
+        <div id="idLoadingImgContainer">
+        <img id="loadingImg" src="images/ajax_loader.gif" alt="loading" width="100" height="100">
+        </div>
+    </div>
+
+    <!-- ========= HEADER MENU SECTION ========= -->
+    <div class="headerMenu" id="idHeaderMenu">
+        <span class="title">Segundo Trabalho - Programa&ccedil;&atilde;o Avan&ccedil;ada</span>
+        <div style="float:right;width:33%;overflow:hidden;height:100%">
+            <input type="button" class="headerMenuButton" id="menuEntrar" onClick="menuBehavior('entrar')" value="ENTRAR">
+            <input type="button" class="headerMenuButton" id="menuSair" style="display:none" onClick="menuBehavior('sair')" value="SAIR">
+            <input type="button" class="headerMenuButton" id="menuBusca" style="display:none" onClick="menuBehavior('busca')" value = "BUSCA">
+            <input type="button" class="headerMenuButton" id="menuCatalogacao" style="display:none" onClick="menuBehavior('catalogacao')" value="CATALOGA&Ccedil;&Atilde;O">
+        </div></div>
+
+    <!--==========================================================================-->
+    <br>
+    <br>
+    <br>
+    <div id="idDivLogin">
+        <table id="loginTable" class="center"  border="0">
+            <tr>
+                <td class="align_right">Usuário:&nbsp;&nbsp;&nbsp;</td>
+                <td><input id="idUsuario" type="text" class="loginInput"/></td>
+            </tr>
+            <tr>
+                <td class="align_right">Senha:&nbsp;&nbsp;&nbsp;</td>
+                <td><input id="idSenha" type="password" class="loginInput"/></td>
+            </tr>
+        </table>
+    </div>
+    <!--==========================================================================-->
+    <div id="idDivBusca" style="display:none" class="formDiv">
+        <table id="tabelaBusca" class="center"  border="0">
+            <tr>
+                <td>
+                    &nbsp;
+                </td>
+                <td colspan="2" class="titulo">
+                    BUSCA
+                </td>
+                <td>
+                    &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td id="idMsgDialogo2" colspan="4">
+                    &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td class="alight_right">
+                    Patrimônio
+                </td>
+                <td colspan="2">
+                    <input type="text" id="idpatrimonio2" placeholder="ex.: 123"/>
+                </td>
+                <td class="alight_left">
+                    <input type="checkbox" id="idcheckpatrimonio" onChange="checkboxBehavior()"/>
+                </td>
+            </tr>
+            <tr>
+                <td class="alight_right">
+                    Título
+                </td>
+                <td colspan="2">
+                    <input type="text" id="idtitulo2" placeholder="ex.: The End of Eternity"/>
+                </td>
+                <td class="alight_left">
+                    <select id="idTituloSelect" class="buscaSelect">
+                        <option value="-" selected="selected">-</option>
+                        <option value="OR">OU</option>
+                        <option value="AND">E</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="alight_right">
+                    Autoria
+                </td>
+                <td colspan="2">
+                    <input type="text"     id="idautoria2" placeholder="ex.: Isaac Asimov"/>
+                </td>
+                <td class="alight_left">
+                    <select id="idAutoriaSelect" class="buscaSelect">
+                        <option value="-" selected="selected">-</option>
+                        <option value="OR">OU</option>
+                        <option value="AND">E</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="alight_right">
+                    Veículo
+                </td>
+                <td colspan="2">
+                    <input type="text"     id="idveiculo2" placeholder="ex.: eBook"/>
+                </td>
+                <td class="alight_left">
+                    <select id="idVeiculoSelect" class="buscaSelect">
+                        <option value="-" selected="selected">-</option>
+                        <option value="OR">OU</option>
+                        <option value="AND">E</option>
+                    </select>
+                    <!--<input type="checkbox" id="idcheckveiculoOU" onChange="checkboxBehavior('idcheckveiculoOU')"/>(OU)
+                    <input type="checkbox" id="idcheckveiculoE" onChange="checkboxBehavior('idcheckveiculoE')"/>(E)-->
+                </td>
+            </tr>
+            <tr>
+                <td class="alight_right">
+                    Data da publicação
+                </td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    de:  <input type="text" id="iddatapublicacao21" placeholder="aaaa-mm-dd"/>
+                </td>
+                <td>
+                    &nbsp;&nbsp;
+                    até: <input type="text" id="iddatapublicacao22" placeholder="aaaa-mm-dd"/>
+                </td>
+                <td class="alight_left">
+                    &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td class="alight_right">
+                    Palavras-chave
+                </td>
+                <td colspan="2">
+                    <input type="text" id="idpalchave2" placeholder="ex.: Asimov Ficção sci-fi romance"/>
+                </td>
+                <td class="alight_left">
+                    &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="2" style="text-align:center;">
+                    <input type="button" class="botoes" value="BUSCAR" id="idBuscar" onClick="sendRequest('search')"/>
+                    <input type="button" class="botoes" value="LIMPAR" id="idLimparBusca" onClick="cleanTextFields('busca')"/>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+        <div id="idDivResultados" style="display:none">
+            <table id="tabelaResultados" class="center"  border="0">
+                <tr>
+                    <td id="idNroRows" class="alight_left">
+                        Resultados
+                    </td>
+                    <td colspan="3">
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <div id="idTabelaResultados">
+                            &nbsp;
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!--==========================================================================-->
+    <div id="idDivCatalogacao"  style="display:none" class="formDiv">
+        <table id="tabelaCatalogacao" class="center" border="0">
+            <tr>
+                <td>
+                    &nbsp;
+                </td>
+                <td class="titulo">
+                    CATALOGAÇÃO
+                </td>
+                <td>
+                    &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td id="idMsgDialogo3" colspan="3">
+                    &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td class="alight_right">
+                    &nbsp;Patrimônio
+                </td>
+                <td>
+                    <input type="text" id="idpatrimonio3" class="catalogacaoTextField" readonly/>
+                </td>
+                <td class="alight_left">
+                    &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td class="alight_right">
+                    Título
+                </td>
+                <td>
+                    <input type="text" id="idtitulo3" class="catalogacaoTextField" readonly/>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td class="alight_right">
+                    Autoria
+                </td>
+                <td>
+                    <input type="text" id="idautoria3" class="catalogacaoTextField" readonly/>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td class="alight_right">
+                    Veículo
+                </td>
+                <td>
+                    <input type="text" id="idveiculo3" class="catalogacaoTextField" readonly/>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td class="alight_right">
+                    Data da publicação
+                </td>
+                <td>
+                    <input type="text" id="iddatapublicacao3" class="catalogacaoTextField" readonly/>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td class="alight_right">
+                    Palavras-chave
+                </td>
+                <td>
+                    <input type="text" id="idpalchave3" class="catalogacaoTextField" readonly/>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td class="alight_right">
+                    Arquivo
+                </td>
+                <td>
+                    <input type="text" id="idnomearquivo3" class="catalogacaoTextField" readonly/>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="text-align:center;vertical-align:bottom;">
+                    <input type="button" class="botoes" id="idEditar" value="EDITAR" onClick="allowEdit(true)"/>
+                    <input type="button" class="botoes" id="idSalvarAtual" value="SALVAR MODIFICAÇÕES" onClick="sendRequest('update')"/>
+                    <input type="button" class="botoes" id="idSalvarNovo" value="SALVAR COMO NOVO" onClick="sendRequest('create')"/>
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="text-align:center;">
+                    <input type="button" class="botoes" id="idDownload" value="DOWNLOAD" onClick="downloadBook()"/>
+                    <input type="button" class="botoes" id="idLimparCat" value="LIMPAR" onClick="cleanTextFields('catalogacao')"/>
+                    <input type="button" class="botoes" id="idExcluir" value="EXCLUIR" onClick="sendRequest('delete')"/>
+                </td>
+                <td>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!--==========================================================================-->
+</body>
+</html>

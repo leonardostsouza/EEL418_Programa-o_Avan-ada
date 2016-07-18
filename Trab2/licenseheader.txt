@@ -1,0 +1,11 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix}Este codigo faz parte do primeiro trabalho desenvolvido para o curso
+${licensePrefix}EEL 418 - Programacao Avanacada, ministrado no primeiro semestre
+${licensePrefix}de 2016 pelo professor Jorge Lopes de Souza Leao
+${licensePrefix}Autor: Leonardo dos Santos Teixeira de Souza
+${licensePrefix}DRE: 112086681
+<#if licenseLast??>
+${licenseLast}
+</#if>
